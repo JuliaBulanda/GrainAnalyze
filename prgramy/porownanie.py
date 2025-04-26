@@ -99,3 +99,5 @@ if __name__ == "__main__":
     # Uruchomienie programu z progiem różnicy 0 - obrazy muszą być identyczne,
     # by zostały uznane za takie.
     main(folder1, folder2, diff_output_folder="roznice", threshold=0)
+
+#sprawdzam czy git działa
