@@ -100,4 +100,4 @@ if __name__ == "__main__":
     # by zostały uznane za takie.
     main(folder1, folder2, diff_output_folder="roznice", threshold=0)
 
-#sprawdzam czy git działa
+#sprawdzam czy git działa2
