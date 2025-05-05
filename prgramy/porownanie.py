@@ -101,3 +101,4 @@ if __name__ == "__main__":
     main(folder1, folder2, diff_output_folder="roznice", threshold=0)
 
 #sprawdzam czy git działa2
+#5-05
