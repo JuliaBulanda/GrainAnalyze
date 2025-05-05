@@ -9,11 +9,12 @@ import tensorflow as tf
 
 
 orgilan_path='training/original'
-default_target_size=(128, 128)    # I don't know how it works, but can be helpfull
-
+size=(256, 256, 3)    # I don't know how it works, but can be helpfull
+    #too big value use a lot of RAM !!!
+    #3. number is number of colors
 
 # Funkcja do ładowania i przetwarzania danych
-def load_data(image_path, mask_path, target_size=default_target_size):
+def load_data(image_path, mask_path, target_size=(size[0], size[1])):
     images = []
     masks = []
 
@@ -35,7 +36,7 @@ def load_data(image_path, mask_path, target_size=default_target_size):
     return np.array(images), np.array(masks)
 
 # Funkcja definiująca model U-Net
-def unet(input_size=(128, 128, 3)):
+def unet(input_size=size):
     inputs = tf.keras.layers.Input(input_size)
 
     # Encoder

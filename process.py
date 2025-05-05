@@ -16,14 +16,14 @@ model = tf.keras.models.load_model('unet_disc_segmentation.keras')
 # Ścieżki wejścia i wyjścia
 input_unet_path = 'input_unet'
 output_path = 'output_contours'
-
+target_size=(256, 256)
 
 def process(input_unet_path = 'input_unet', output_path = 'output_contours'):
     os.makedirs(output_path, exist_ok=True)
     # Przetwarzanie obrazów wejściowych
     for image_file in os.listdir(input_unet_path):
         img_path = os.path.join(input_unet_path, image_file)
-        img_loaded = tf.keras.preprocessing.image.load_img(img_path, target_size=(128, 128))
+        img_loaded = tf.keras.preprocessing.image.load_img(img_path, target_size=target_size)
         img_array = tf.keras.preprocessing.image.img_to_array(img_loaded) / 255.0
 
         # Predykcja maski
