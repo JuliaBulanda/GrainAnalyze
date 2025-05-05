@@ -1,22 +1,16 @@
 import os
+import numpy as np
 
 # Wyłącz optymalizacje oneDNN dla TensorFlow
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
 
-
-import numpy as np
-
 import tensorflow as tf
-from tensorflow.keras.models import Model, load_model
-from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Conv2DTranspose, concatenate
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
+
 import matplotlib.pyplot as plt
 
 
-# Load and preprocess data
-def load_data(image_path, mask_path, target_size=(128,128)):
+# Funkcja do ładowania i przetwarzania danych
+def load_data(image_path, mask_path, target_size=(128, 128)):
     images = []
     masks = []
 
@@ -24,11 +18,11 @@ def load_data(image_path, mask_path, target_size=(128,128)):
     mask_files = sorted(os.listdir(mask_path))
 
     for img, msk in zip(image_files, mask_files):
-        img_loaded = load_img(os.path.join(image_path, img), target_size=target_size)
-        img_array = img_to_array(img_loaded) / 255.0
+        img_loaded = tf.keras.preprocessing.image.load_img(os.path.join(image_path, img), target_size=target_size)
+        img_array = tf.keras.preprocessing.image.img_to_array(img_loaded) / 255.0
 
-        mask_loaded = load_img(os.path.join(mask_path, msk), target_size=target_size, color_mode='grayscale')
-        mask_array = img_to_array(mask_loaded) / 255.0
+        mask_loaded = tf.keras.preprocessing.image.load_img(os.path.join(mask_path, msk), target_size=target_size, color_mode='grayscale')
+        mask_array = tf.keras.preprocessing.image.img_to_array(mask_loaded) / 255.0
         mask_array = (mask_array > 0.5).astype(np.float32)
 
         images.append(img_array)
@@ -36,47 +30,53 @@ def load_data(image_path, mask_path, target_size=(128,128)):
 
     return np.array(images), np.array(masks)
 
+# Funkcja definiująca model U-Net
+def unet(input_size=(128, 128, 3)):
+    inputs = tf.keras.layers.Input(input_size)
 
-# Define U-Net model
-def unet(input_size=(128,128,3)):
-    inputs = Input(input_size)
+    # Encoder
+    conv1 = tf.keras.layers.Conv2D(64, 3, activation='relu', padding='same')(inputs)
+    pool1 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(conv1)
 
-    conv1 = Conv2D(64, 3, activation='relu', padding='same')(inputs)
-    pool1 = MaxPooling2D(pool_size=(2,2))(conv1)
+    conv2 = tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same')(pool1)
+    pool2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(conv2)
 
-    conv2 = Conv2D(128, 3, activation='relu', padding='same')(pool1)
-    pool2 = MaxPooling2D(pool_size=(2,2))(conv2)
+    conv3 = tf.keras.layers.Conv2D(256, 3, activation='relu', padding='same')(pool2)
 
-    conv3 = Conv2D(256, 3, activation='relu', padding='same')(pool2)
+    # Decoder
+    up2 = tf.keras.layers.Conv2DTranspose(128, 3, strides=(2, 2), activation='relu', padding='same')(conv3)
+    concat2 = tf.keras.layers.concatenate([conv2, up2])
+    conv4 = tf.keras.layers.Conv2D(128, 3, activation='relu', padding='same')(concat2)
 
-    up2 = Conv2DTranspose(128, 3, strides=(2,2), activation='relu', padding='same')(conv3)
-    concat2 = concatenate([conv2, up2])
+    up1 = tf.keras.layers.Conv2DTranspose(64, 3, strides=(2, 2), activation='relu', padding='same')(conv4)
+    concat1 = tf.keras.layers.concatenate([conv1, up1])
+    conv5 = tf.keras.layers.Conv2D(64, 3, activation='relu', padding='same')(concat1)
 
-    conv4 = Conv2D(128, 3, activation='relu', padding='same')(concat2)
+    outputs = tf.keras.layers.Conv2D(1, 1, activation='sigmoid')(conv5)
 
-    up1 = Conv2DTranspose(64, 3, strides=(2,2), activation='relu', padding='same')(conv4)
-    concat1 = concatenate([conv1, up1])
-
-    conv5 = Conv2D(64, 3, activation='relu', padding='same')(concat1)
-
-    outputs = Conv2D(1, 1, activation='sigmoid')(conv5)
-
-    model = Model(inputs=inputs, outputs=outputs)
+    model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     return model
 
 
-
-X_train, y_train = load_data('training/original', '../training/mask')
+# Ładowanie danych treningowych
+X_train, y_train = load_data('training/original', 'training/mask')
 print(f"Loaded {len(X_train)} images for training.")
 plt.imshow(y_train[0].squeeze(), cmap='gray')
 plt.title("First training mask")
 plt.show()
 
+# Kompilacja modelu
 model = unet()
-model.compile(optimizer=Adam(learning_rate=1e-4), loss='binary_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
 
-checkpoint = ModelCheckpoint('unet_disc_segmentation.keras', monitor='val_loss', save_best_only=True)
+# Callback do zapisywania najlepszego modelu
+checkpoint = tf.keras.callbacks.ModelCheckpoint('unet_disc_segmentation.keras',
+                                                monitor='val_loss',
+                                                save_best_only=True)
 
+# Trenowanie modelu
 model.fit(X_train, y_train,
           batch_size=1,
           steps_per_epoch=max(1, len(X_train)),
