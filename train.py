@@ -1,19 +1,19 @@
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Wyłącz optymalizacje oneDNN dla TensorFlow
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
 
 import tensorflow as tf
 
-import matplotlib.pyplot as plt
 
 orgilan_path='training/original'
-
+default_target_size=(128, 128)    # I don't know how it works, but can be helpfull
 
 
 # Funkcja do ładowania i przetwarzania danych
-def load_data(image_path, mask_path, target_size=(128, 128)):
+def load_data(image_path, mask_path, target_size=default_target_size):
     images = []
     masks = []
 
@@ -26,6 +26,7 @@ def load_data(image_path, mask_path, target_size=(128, 128)):
 
         mask_loaded = tf.keras.preprocessing.image.load_img(os.path.join(mask_path, msk), target_size=target_size, color_mode='grayscale')
         mask_array = tf.keras.preprocessing.image.img_to_array(mask_loaded) / 255.0
+                #zastanawiam się czy do tego miejsca nie jest lepsze cv2 ???
         mask_array = (mask_array > 0.5).astype(np.float32)
 
         images.append(img_array)
@@ -60,7 +61,7 @@ def unet(input_size=(128, 128, 3)):
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     return model
 
-def trein():
+def train():
     # Ładowanie danych treningowych
     X_train, y_train = load_data('training/original', 'training/mask')
     print(f"Loaded {len(X_train)} images for training.")
