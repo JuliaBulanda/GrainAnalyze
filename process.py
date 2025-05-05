@@ -16,7 +16,7 @@ model = tf.keras.models.load_model('unet_disc_segmentation.keras')
 # Ścieżki wejścia i wyjścia
 input_unet_path = 'input_unet'
 output_path = 'output_contours'
-target_size=(256, 256)
+target_size=(128, 128)
 
 def process(input_unet_path = 'input_unet', output_path = 'output_contours'):
     os.makedirs(output_path, exist_ok=True)

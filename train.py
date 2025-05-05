@@ -9,7 +9,8 @@ import tensorflow as tf
 
 
 orgilan_path='training/original'
-size=(256, 256, 3)    # I don't know how it works, but can be helpfull
+size=(128, 128, 3)    # I don't know how it works, but can be helpfull
+    # smoler size = faster building model, but worse shape of result
     #too big value use a lot of RAM !!!
     #3. number is number of colors
 
