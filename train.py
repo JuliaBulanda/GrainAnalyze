@@ -8,6 +8,9 @@ import tensorflow as tf
 
 import matplotlib.pyplot as plt
 
+orgilan_path='training/original'
+
+
 
 # Funkcja do ładowania i przetwarzania danych
 def load_data(image_path, mask_path, target_size=(128, 128)):
@@ -57,30 +60,35 @@ def unet(input_size=(128, 128, 3)):
     model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
     return model
 
+def trein():
+    # Ładowanie danych treningowych
+    X_train, y_train = load_data('training/original', 'training/mask')
+    print(f"Loaded {len(X_train)} images for training.")
+    plt.imshow(y_train[0].squeeze(), cmap='gray')
+    plt.title("First training mask")
+    plt.show()
 
-# Ładowanie danych treningowych
-X_train, y_train = load_data('training/original', 'training/mask')
-print(f"Loaded {len(X_train)} images for training.")
-plt.imshow(y_train[0].squeeze(), cmap='gray')
-plt.title("First training mask")
-plt.show()
+    # Kompilacja modelu
+    model = unet()
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
+                  loss='binary_crossentropy',
+                  metrics=['accuracy'])
 
-# Kompilacja modelu
-model = unet()
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
+    # Callback do zapisywania najlepszego modelu
+    checkpoint = tf.keras.callbacks.ModelCheckpoint('unet_disc_segmentation.keras',
+                                                    monitor='val_loss',
+                                                    save_best_only=True)
 
-# Callback do zapisywania najlepszego modelu
-checkpoint = tf.keras.callbacks.ModelCheckpoint('unet_disc_segmentation.keras',
-                                                monitor='val_loss',
-                                                save_best_only=True)
+    # Trenowanie modelu
+    model.fit(X_train, y_train,
+              batch_size=1,
+              steps_per_epoch=max(1, len(X_train)),
+              epochs=50,
+              validation_split=0.2,
+              shuffle=True,
+              callbacks=[checkpoint])
 
-# Trenowanie modelu
-model.fit(X_train, y_train,
-          batch_size=1,
-          steps_per_epoch=max(1, len(X_train)),
-          epochs=50,
-          validation_split=0.2,
-          shuffle=True,
-          callbacks=[checkpoint])
+
+
+if __name__=="__main__":
+    train()
