@@ -31,26 +31,32 @@ def delete_folder(folder):
         print(f"Folder {folder} does not exist.")
         return
 
-    if not os.path.isdir(folder):
-        raise ValueError(f"Path {folder} is not a directory.")
-
     shutil.rmtree(folder)
     print(f"Deleted folder: {folder}")
 
-def clear(keras=False, output=False, training_masks=False, training_pictures=False, input_unet=False, all=False, dry_run=False):
+def clear(keras=None, output=None, training_masks=None, training_pictures=None, input_unet=None, all=False, dry_run=False):
     """
-    Clears specified directories and files based on provided flags. If 'all' is True, clears all specified locations.
+    Clears specified directories and files based on provided flags. If 'all' is True, defaults unspecified flags to True.
 
     :param keras: If True, deletes files with '.keras' extension in the current directory.
     :param output: If True, deletes the 'output_contours' folder.
     :param training_masks: If True, deletes all files in the 'training/mask' folder.
     :param training_pictures: If True, deletes all files in the 'training/original' folder.
     :param input_unet: If True, deletes all files in the 'input_unet' folder.
-    :param all: If True, performs all actions regardless of individual flags.
+    :param all: If True, defaults unspecified flags to True.
     :param dry_run: If True, lists actions to be performed without making changes.
     """
     if all:
-        keras = output = training_masks = training_pictures = input_unet = True
+        if keras is None:
+            keras = True
+        if output is None:
+            output = True
+        if training_masks is None:
+            training_masks = True
+        if training_pictures is None:
+            training_pictures = True
+        if input_unet is None:
+            input_unet = True
 
     actions_summary = []
 
@@ -94,6 +100,13 @@ def clear(keras=False, output=False, training_masks=False, training_pictures=Fal
         print("Dry run summary:")
         for action in actions_summary:
             print(action)
+
+        confirm = input("Do you want to proceed with these deletions? (yes/no): ").strip().lower()
+        if confirm in ['yes', 'y']:
+            print("Proceeding with deletions...")
+            clear(keras=keras, output=output, training_masks=training_masks, training_pictures=training_pictures, input_unet=input_unet, all=False, dry_run=False)
+        else:
+            print("Aborted deletions.")
 
 if __name__ == "__main__":
     clear(keras=True, output=True, dry_run=True)
