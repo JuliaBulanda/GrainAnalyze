@@ -6,9 +6,7 @@ import csv
 import psutil
 import subprocess
 
-from clear import clear
-from train import train
-from process import process
+
 
 # # Ścieżki wejścia/wyjścia dla procesu inferencji
 # INPUT_UNET = 'input_unet'
@@ -79,6 +77,7 @@ def main():
     logs = []
 
     # 1) Czyszczenie
+    from clear import clear
     logs.append(run_stage(
         'clear',
         clear,
@@ -86,11 +85,18 @@ def main():
         # dry_run=False, żeby faktycznie poszło usuwanie
         dict(keras=True, output=True, dry_run=True)
     ) if False else run_stage('clear', clear, keras=True, output=True, dry_run=True))
+    del clear
 
     # 2) Trening
+
+    from train import train
+
     logs.append(run_stage('train', train))
 
+    del train
+
     # 3) Inferencja / proces
+    from process import process
     logs.append(run_stage(
         'process',
         process#,
