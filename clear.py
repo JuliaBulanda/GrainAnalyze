@@ -34,7 +34,7 @@ def delete_folder(folder):
     shutil.rmtree(folder)
     print(f"Deleted folder: {folder}")
 
-def clear(keras=None, output=None, training_masks=None, training_pictures=None, input_unet=None, all=False, dry_run=False):
+def clear(keras=None, output=None, training_masks=None, training_pictures=None, input_unet=None, all=False, dry_run=True):
     """
     Clears specified directories and files based on provided flags. If 'all' is True, defaults unspecified flags to True.
 

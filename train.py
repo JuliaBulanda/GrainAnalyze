@@ -7,6 +7,7 @@ os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
 
 import tensorflow as tf
 
+csv_logger = tf.keras.callbacks.CSVLogger('training_log.csv', append=False)
 
 orgilan_path='training/original'
 size=(512, 512, 3)    # I don't know how it works, but can be helpful
@@ -89,7 +90,7 @@ def train():
               epochs=50,
               validation_split=0.2,
               shuffle=True,
-              callbacks=[checkpoint])
+              callbacks=[checkpoint, csv_logger])
 
 
 
