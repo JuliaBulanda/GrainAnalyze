@@ -7,25 +7,19 @@ def delete_files(folder):
 
     :param folder: Path to the folder from which you want to delete files.
     """
-    try:
-        # Check if the folder exists
-        if not os.path.exists(folder):
-            print(f"Folder {folder} does not exist.")
-            return
+    if not os.path.exists(folder):
+        print(f"Folder {folder} does not exist.")
+        return
 
-        # Iterate through all files in the folder
-        for file_name in os.listdir(folder):
-            file_path = os.path.join(folder, file_name)
-            # Check if it is a file
-            if os.path.isfile(file_path):
-                os.remove(file_path)
-                print(f"Deleted file: {file_path}")
-            else:
-                print(f"Skipped: {file_path} (not a file)")
+    for file_name in os.listdir(folder):
+        file_path = os.path.join(folder, file_name)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+            print(f"Deleted file: {file_path}")
+        else:
+            print(f"Skipped: {file_path} (not a file)")
 
-        print("File deletion process completed.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    print("File deletion process completed.")
 
 def delete_folder(folder):
     """
@@ -33,16 +27,17 @@ def delete_folder(folder):
 
     :param folder: Path to the folder to be deleted.
     """
-    try:
-        if os.path.exists(folder):
-            shutil.rmtree(folder)
-            print(f"Deleted folder: {folder}")
-        else:
-            print(f"Folder {folder} does not exist.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    if not os.path.exists(folder):
+        print(f"Folder {folder} does not exist.")
+        return
 
-def clear(keras=None, output=None, training_masks=None, training_pictures=None, input_unet=None, all=None):
+    if not os.path.isdir(folder):
+        raise ValueError(f"Path {folder} is not a directory.")
+
+    shutil.rmtree(folder)
+    print(f"Deleted folder: {folder}")
+
+def clear(keras=False, output=False, training_masks=False, training_pictures=False, input_unet=False, all=False, dry_run=False):
     """
     Clears specified directories and files based on provided flags. If 'all' is True, clears all specified locations.
 
@@ -52,39 +47,53 @@ def clear(keras=None, output=None, training_masks=None, training_pictures=None, 
     :param training_pictures: If True, deletes all files in the 'training/original' folder.
     :param input_unet: If True, deletes all files in the 'input_unet' folder.
     :param all: If True, performs all actions regardless of individual flags.
+    :param dry_run: If True, lists actions to be performed without making changes.
     """
     if all:
-        if keras is None:
-            keras = True
-        if output is None:
-            output = True
-        if training_masks is None:
-            training_masks = True
-        if training_pictures is None:
-            training_pictures = True
-        if input_unet is None:
-            input_unet = True
+        keras = output = training_masks = training_pictures = input_unet = True
+
+    actions_summary = []
 
     if keras:
-        try:
-            for file_name in os.listdir('.'):  # Current directory
-                if file_name.endswith('.keras'):
-                    os.remove(file_name)
-                    print(f"Deleted file: {file_name}")
-        except Exception as e:
-            print(f"An error occurred while deleting .keras files: {e}")
+        keras_files = [file_name for file_name in os.listdir('.') if file_name.endswith('.keras')]
+        if dry_run:
+            actions_summary.extend([f"Would delete: {file}" for file in keras_files])
+        else:
+            for file_name in keras_files:
+                os.remove(file_name)
+                print(f"Deleted file: {file_name}")
 
     if output:
-        delete_folder('output_contours')
+        if dry_run:
+            actions_summary.append(f"Would delete folder: output_contours")
+        else:
+            delete_folder('output_contours')
 
     if training_masks:
-        delete_files('training/mask')
+        if dry_run:
+            files = os.listdir('training/mask') if os.path.exists('training/mask') else []
+            actions_summary.extend([f"Would delete: training/mask/{file}" for file in files])
+        else:
+            delete_files('training/mask')
 
     if training_pictures:
-        delete_files('training/original')
+        if dry_run:
+            files = os.listdir('training/original') if os.path.exists('training/original') else []
+            actions_summary.extend([f"Would delete: training/original/{file}" for file in files])
+        else:
+            delete_files('training/original')
 
     if input_unet:
-        delete_files('input_unet')
+        if dry_run:
+            files = os.listdir('input_unet') if os.path.exists('input_unet') else []
+            actions_summary.extend([f"Would delete: input_unet/{file}" for file in files])
+        else:
+            delete_files('input_unet')
+
+    if dry_run:
+        print("Dry run summary:")
+        for action in actions_summary:
+            print(action)
 
 if __name__ == "__main__":
-    clear(keras=True, output=True)
+    clear(keras=True, output=True, dry_run=True)
