@@ -1,0 +1,203 @@
+C:\Piotrek_pliki\Studia\Python\unet\.venv\Scripts\python.exe C:\Piotrek_pliki\Studia\Python\unet\main.py
+Dry run summary:
+Would delete folder: output_contours
+Do you want to proceed with these deletions? (yes/no): y
+Proceeding with deletions...
+Folder output_contours does not exist.
+Loaded 30 images for training.
+2025-05-10 18:47:16.086806: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE3 SSE4.1 SSE4.2 AVX AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Epoch 1/50
+2025-05-10 18:47:18.556448: W external/local_xla/xla/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 1207959552 exceeds 10% of free system memory.
+2025-05-10 18:47:18.556491: W external/local_xla/xla/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 1207959552 exceeds 10% of free system memory.
+ 1/30 ━━━━━━━━━━━━━━━━━━━━ 1:57 4s/step - accuracy: 0.7328 - loss: 0.66552025-05-10 18:47:20.828023: W external/local_xla/xla/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 1207959552 exceeds 10% of free system memory.
+2025-05-10 18:47:20.829962: W external/local_xla/xla/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 1207959552 exceeds 10% of free system memory.
+ 2/30 ━━━━━━━━━━━━━━━━━━━━ 59s 2s/step - accuracy: 0.7320 - loss: 0.6611 2025-05-10 18:47:23.019899: W external/local_xla/xla/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 1207959552 exceeds 10% of free system memory.
+24/30 ━━━━━━━━━━━━━━━━━━━━ 15s 3s/step - accuracy: 0.7303 - loss: 0.5979C:\Piotrek_pliki\Studia\Python\unet\.venv\Lib\site-packages\keras\src\trainers\epoch_iterator.py:107: UserWarning: Your input ran out of data; interrupting training. Make sure that your dataset or generator can generate at least `steps_per_epoch * epochs` batches. You may need to use the `.repeat()` function when building your dataset.
+  self._interrupted_warning()
+30/30 ━━━━━━━━━━━━━━━━━━━━ 70s 2s/step - accuracy: 0.7302 - loss: 0.5875 - val_accuracy: 0.7297 - val_loss: 0.4597
+Epoch 2/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 76s 2s/step - accuracy: 0.7298 - loss: 0.4315 - val_accuracy: 0.7297 - val_loss: 0.3244
+Epoch 3/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.7726 - loss: 0.2717 - val_accuracy: 0.9878 - val_loss: 0.1511
+Epoch 4/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9856 - loss: 0.1056 - val_accuracy: 0.9803 - val_loss: 0.0540
+Epoch 5/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 75s 2s/step - accuracy: 0.9877 - loss: 0.0431 - val_accuracy: 0.9896 - val_loss: 0.0454
+Epoch 6/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 74s 2s/step - accuracy: 0.9885 - loss: 0.0429 - val_accuracy: 0.9892 - val_loss: 0.0440
+Epoch 7/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 80s 2s/step - accuracy: 0.9896 - loss: 0.0339 - val_accuracy: 0.9893 - val_loss: 0.0339
+Epoch 8/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 74s 2s/step - accuracy: 0.9846 - loss: 0.0471 - val_accuracy: 0.9909 - val_loss: 0.0336
+Epoch 9/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9878 - loss: 0.0405 - val_accuracy: 0.9910 - val_loss: 0.0302
+Epoch 10/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 74s 2s/step - accuracy: 0.9846 - loss: 0.0488 - val_accuracy: 0.9861 - val_loss: 0.0522
+Epoch 11/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9877 - loss: 0.0376 - val_accuracy: 0.9898 - val_loss: 0.0329
+Epoch 12/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9908 - loss: 0.0302 - val_accuracy: 0.9919 - val_loss: 0.0279
+Epoch 13/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 74s 2s/step - accuracy: 0.9904 - loss: 0.0317 - val_accuracy: 0.9908 - val_loss: 0.0290
+Epoch 14/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 75s 2s/step - accuracy: 0.9884 - loss: 0.0346 - val_accuracy: 0.9919 - val_loss: 0.0282
+Epoch 15/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9916 - loss: 0.0284 - val_accuracy: 0.9883 - val_loss: 0.0406
+Epoch 16/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9892 - loss: 0.0380 - val_accuracy: 0.9915 - val_loss: 0.0292
+Epoch 17/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9918 - loss: 0.0266 - val_accuracy: 0.9927 - val_loss: 0.0240
+Epoch 18/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9924 - loss: 0.0241 - val_accuracy: 0.9929 - val_loss: 0.0239
+Epoch 19/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 77s 3s/step - accuracy: 0.9901 - loss: 0.0302 - val_accuracy: 0.9918 - val_loss: 0.0261
+Epoch 20/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9908 - loss: 0.0274 - val_accuracy: 0.9930 - val_loss: 0.0233
+Epoch 21/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9919 - loss: 0.0245 - val_accuracy: 0.9931 - val_loss: 0.0229
+Epoch 22/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9921 - loss: 0.0234 - val_accuracy: 0.9932 - val_loss: 0.0224
+Epoch 23/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 82s 2s/step - accuracy: 0.9931 - loss: 0.0201 - val_accuracy: 0.9933 - val_loss: 0.0217
+Epoch 24/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9905 - loss: 0.0283 - val_accuracy: 0.9931 - val_loss: 0.0223
+Epoch 25/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9935 - loss: 0.0187 - val_accuracy: 0.9833 - val_loss: 0.0639
+Epoch 26/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9901 - loss: 0.0329 - val_accuracy: 0.9863 - val_loss: 0.0475
+Epoch 27/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 71s 2s/step - accuracy: 0.9932 - loss: 0.0211 - val_accuracy: 0.9931 - val_loss: 0.0217
+Epoch 28/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 71s 2s/step - accuracy: 0.9922 - loss: 0.0236 - val_accuracy: 0.9925 - val_loss: 0.0245
+Epoch 29/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 71s 2s/step - accuracy: 0.9932 - loss: 0.0221 - val_accuracy: 0.9923 - val_loss: 0.0238
+Epoch 30/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9919 - loss: 0.0245 - val_accuracy: 0.9910 - val_loss: 0.0296
+Epoch 31/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9918 - loss: 0.0243 - val_accuracy: 0.9922 - val_loss: 0.0249
+Epoch 32/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 74s 2s/step - accuracy: 0.9937 - loss: 0.0203 - val_accuracy: 0.9929 - val_loss: 0.0230
+Epoch 33/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9939 - loss: 0.0176 - val_accuracy: 0.9915 - val_loss: 0.0283
+Epoch 34/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9930 - loss: 0.0196 - val_accuracy: 0.9904 - val_loss: 0.0313
+Epoch 35/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9927 - loss: 0.0214 - val_accuracy: 0.9892 - val_loss: 0.0373
+Epoch 36/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9936 - loss: 0.0203 - val_accuracy: 0.9939 - val_loss: 0.0188
+Epoch 37/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9920 - loss: 0.0224 - val_accuracy: 0.9935 - val_loss: 0.0214
+Epoch 38/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9927 - loss: 0.0214 - val_accuracy: 0.9919 - val_loss: 0.0272
+Epoch 39/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9944 - loss: 0.0167 - val_accuracy: 0.9925 - val_loss: 0.0239
+Epoch 40/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9948 - loss: 0.0143 - val_accuracy: 0.9938 - val_loss: 0.0192
+Epoch 41/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9945 - loss: 0.0154 - val_accuracy: 0.9940 - val_loss: 0.0193
+Epoch 42/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9946 - loss: 0.0153 - val_accuracy: 0.9941 - val_loss: 0.0187
+Epoch 43/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9942 - loss: 0.0170 - val_accuracy: 0.9940 - val_loss: 0.0183
+Epoch 44/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 79s 2s/step - accuracy: 0.9938 - loss: 0.0173 - val_accuracy: 0.9941 - val_loss: 0.0186
+Epoch 45/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 73s 2s/step - accuracy: 0.9944 - loss: 0.0159 - val_accuracy: 0.9944 - val_loss: 0.0178
+Epoch 46/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 72s 2s/step - accuracy: 0.9948 - loss: 0.0149 - val_accuracy: 0.9945 - val_loss: 0.0171
+Epoch 47/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 79s 2s/step - accuracy: 0.9935 - loss: 0.0191 - val_accuracy: 0.9942 - val_loss: 0.0182
+Epoch 48/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 71s 2s/step - accuracy: 0.9948 - loss: 0.0140 - val_accuracy: 0.9947 - val_loss: 0.0165
+Epoch 49/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 71s 2s/step - accuracy: 0.9943 - loss: 0.0149 - val_accuracy: 0.9944 - val_loss: 0.0183
+Epoch 50/50
+30/30 ━━━━━━━━━━━━━━━━━━━━ 74s 2s/step - accuracy: 0.9945 - loss: 0.0157 - val_accuracy: 0.9947 - val_loss: 0.0170
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 528ms/step
+Prediction stats for 21.jpg: min=2.0281385459952617e-09, max=0.6686010360717773, mean=0.004706668201833963
+21.jpg: 4 contours found
+  Largest contour area: 5695.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 481ms/step
+Prediction stats for 22.jpg: min=3.142973881153921e-09, max=0.8625349402427673, mean=0.004158779978752136
+22.jpg: 4 contours found
+  Largest contour area: 10015.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 484ms/step
+Prediction stats for 25.jpg: min=2.5417450366660432e-09, max=0.5470378398895264, mean=0.0015073531540110707
+25.jpg: 1 contours found
+  Largest contour area: 270.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 599ms/step
+Prediction stats for 28.jpg: min=2.6263231589496172e-09, max=0.6510852575302124, mean=0.0022804776672273874
+28.jpg: 2 contours found
+  Largest contour area: 1155.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 626ms/step
+Prediction stats for 30.jpg: min=1.2498173163066895e-08, max=0.9999510049819946, mean=0.018780222162604332
+30.jpg: 7 contours found
+  Largest contour area: 119609.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 614ms/step
+Prediction stats for IMG_20250428_132135.jpg: min=3.5650040697277063e-09, max=1.0, mean=0.27395913004875183
+IMG_20250428_132135.jpg: 1 contours found
+  Largest contour area: 1375812.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 621ms/step
+Prediction stats for IMG_20250428_132349.jpg: min=5.484699916458169e-10, max=1.0, mean=0.24614407122135162
+IMG_20250428_132349.jpg: 4 contours found
+  Largest contour area: 1280851.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 973ms/step
+Prediction stats for IMG_20250428_132804.jpg: min=5.484699916458169e-10, max=1.0, mean=0.2731912434101105
+IMG_20250428_132804.jpg: 1 contours found
+  Largest contour area: 1377438.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 706ms/step
+Prediction stats for IMG_20250428_134303.jpg: min=3.5490927530190675e-07, max=0.9999995827674866, mean=0.2204967588186264
+IMG_20250428_134303.jpg: 33 contours found
+  Largest contour area: 764965.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 595ms/step
+Prediction stats for IMG_20250428_134350.jpg: min=5.723060914064604e-10, max=1.0, mean=0.33198943734169006
+IMG_20250428_134350.jpg: 1 contours found
+  Largest contour area: 1677829.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 620ms/step
+Prediction stats for IMG_20250428_134609.jpg: min=5.179614515071762e-10, max=0.9999847412109375, mean=0.20024703443050385
+IMG_20250428_134609.jpg: 6 contours found
+  Largest contour area: 1190800.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 615ms/step
+Prediction stats for IMG_20250428_134906.jpg: min=5.523397295092991e-09, max=1.0, mean=0.25682029128074646
+IMG_20250428_134906.jpg: 1 contours found
+  Largest contour area: 1503630.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 607ms/step
+Prediction stats for IMG_20250428_135018.jpg: min=1.203187594001065e-08, max=1.0, mean=0.29123812913894653
+IMG_20250428_135018.jpg: 1 contours found
+  Largest contour area: 1570613.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 614ms/step
+Prediction stats for IMG_20250428_135112.jpg: min=8.88729800863075e-09, max=1.0, mean=0.2892909049987793
+IMG_20250428_135112.jpg: 1 contours found
+  Largest contour area: 1503897.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 626ms/step
+Prediction stats for IMG_20250428_135520.jpg: min=4.408207416872756e-07, max=0.9999995231628418, mean=0.1521860957145691
+IMG_20250428_135520.jpg: 23 contours found
+  Largest contour area: 554775.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 605ms/step
+Prediction stats for IMG_20250428_135859.jpg: min=5.484699916458169e-10, max=1.0, mean=0.2500463128089905
+IMG_20250428_135859.jpg: 1 contours found
+  Largest contour area: 1376246.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 610ms/step
+Prediction stats for IMG_20250428_140110.jpg: min=5.484699916458169e-10, max=1.0, mean=0.2593677341938019
+IMG_20250428_140110.jpg: 1 contours found
+  Largest contour area: 1357404.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 609ms/step
+Prediction stats for IMG_20250428_140125.jpg: min=5.466235797335628e-10, max=1.0, mean=0.2637448012828827
+IMG_20250428_140125.jpg: 1 contours found
+  Largest contour area: 1363310.0
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 1s/step
+Prediction stats for picture1.jpg: min=2.82353731506646e-08, max=1.0, mean=0.2726801931858063
+picture1.jpg: 2 contours found
+  Largest contour area: 1386617.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 605ms/step
+Prediction stats for picture6.jpg: min=4.042778556367921e-08, max=1.0, mean=0.27308401465415955
+picture6.jpg: 1 contours found
+  Largest contour area: 1371367.5
+1/1 ━━━━━━━━━━━━━━━━━━━━ 1s 607ms/step
+Prediction stats for picture9.jpg: min=2.6948857367870005e-08, max=1.0, mean=0.2722996175289154
+picture9.jpg: 1 contours found
+  Largest contour area: 1365988.5
+Zakończono. Metryki zapisane w resource_log.csv
+
+Process finished with exit code 0
