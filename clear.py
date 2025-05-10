@@ -1,7 +1,8 @@
 import os
+import shutil
 
 
-def clear(folder):
+def pliki(folder):
     """
     Usuwa wszystkie pliki we wskazanym folderze.
 
@@ -27,7 +28,30 @@ def clear(folder):
     except Exception as e:
         print(f"Wystąpił błąd: {e}")
 
+def folder(folder):
+    shutil.rmtree(folder)
 
-# Przykład użycia
-folder_docelowy = r"C:\ścieżka\do\twojego\folderu"
-usun_pliki(folder_docelowy)
+
+def clear(keras=None, output=None, trainingmasks=None, trainingpictures=None, all=None):
+    if all:
+        if keras is None:
+            keras=True
+        if output is None:
+            output=True
+        if trainingmasks is None:
+            trainingmasks=True
+        if trainingpictures is None:
+            trainingpictures=True
+
+    if keras:
+        tu wstaw kod usuwający pliki z rozszerzeniem keras
+    if output:
+        shutil.rmtree('output_contours')
+    if trainingmasks:
+        pliki('training/mask')
+    if trainingpictures:
+        pliki('training/original')
+
+
+if __name__=="__main__":
+    clear(keras=True, output=True)
