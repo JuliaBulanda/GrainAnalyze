@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Wyłącz optymalizacje oneDNN dla TensorFlow
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "1"    #musi być przed importem
 
 import tensorflow as tf
 
