@@ -10,7 +10,7 @@ import tensorflow as tf
 csv_logger = tf.keras.callbacks.CSVLogger('training_log.csv', append=False)
 
 orgilan_path='training/original'
-size=(512, 512, 1)    # I don't know how it works, but can be helpful
+size=(512, 512, 3)    # I don't know how it works, but can be helpful
     # smoler size = faster building model, but worse shape of result
     #too big value use a lot of RAM !!!
     #3. number is number of colors
