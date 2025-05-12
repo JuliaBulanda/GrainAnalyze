@@ -2,8 +2,8 @@ import os
 import numpy as np
 # import matplotlib.pyplot as plt
 
-# Wyłącz optymalizacje oneDNN dla TensorFlow
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
+# # Wyłącz optymalizacje oneDNN dla TensorFlow
+# os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
 
 import tensorflow as tf
 
@@ -14,6 +14,18 @@ size=(512, 512, 3)    # I don't know how it works, but can be helpful
     # smoler size = faster building model, but worse shape of result
     #too big value use a lot of RAM !!!
     #3. number is number of colors
+
+batch_size = 8  # lub większa wartość, jeśli pamięć GPU na to pozwala
+
+
+# Sprawdź dostępne urządzenia
+physical_gpus = tf.config.list_physical_devices('GPU')
+print("Dostępne GPU:", physical_gpus)
+
+# Włącz memory growth, jeśli dostępne
+if physical_gpus:
+    for gpu in physical_gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
 
 # Funkcja do ładowania i przetwarzania danych
 def load_data(image_path, mask_path, target_size=(size[0], size[1])):
@@ -85,7 +97,7 @@ def train():
 
     # Trenowanie modelu
     model.fit(X_train, y_train,
-              batch_size=1,
+              batch_size=batch_size,
               steps_per_epoch=max(1, len(X_train)),
               epochs=10,
               validation_split=0.2,
