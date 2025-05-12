@@ -1,16 +1,16 @@
 import os
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # Wyłącz optymalizacje oneDNN dla TensorFlow
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "1"    #musi być przed importem
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
 
 import tensorflow as tf
 
 csv_logger = tf.keras.callbacks.CSVLogger('training_log.csv', append=False)
 
 orgilan_path='training/original'
-size=(512, 512, 3)    # I don't know how it works, but can be helpful
+size=(512, 512, 1)    # I don't know how it works, but can be helpful
     # smoler size = faster building model, but worse shape of result
     #too big value use a lot of RAM !!!
     #3. number is number of colors
@@ -68,9 +68,9 @@ def train():
     # Ładowanie danych treningowych
     X_train, y_train = load_data('training/original', 'training/mask')
     print(f"Loaded {len(X_train)} images for training.")
-    plt.imshow(y_train[0].squeeze(), cmap='gray')
-    plt.title("First training mask")
-    plt.show()
+    # plt.imshow(y_train[0].squeeze(), cmap='gray')
+    # plt.title("First training mask")
+    # plt.show()
 
     # Kompilacja modelu
     model = unet()

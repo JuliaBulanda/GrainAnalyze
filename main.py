@@ -84,7 +84,7 @@ def main():
         # flagi clear: usuwamy .keras i output_contours
         # dry_run=False, żeby faktycznie poszło usuwanie
         dict(keras=True, output=True, dry_run=True)
-    ) if False else run_stage('clear', clear, keras=True, output=True, dry_run=True))
+    ) if False else run_stage('clear', clear, keras=True, output=True, dry_run=True)) #dziwny zapis. czat tłumaczy się że to dla wygody
     del clear
 
     # 2) Trening
