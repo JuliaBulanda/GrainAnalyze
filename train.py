@@ -87,7 +87,7 @@ def train():
     model.fit(X_train, y_train,
               batch_size=1,
               steps_per_epoch=max(1, len(X_train)),
-              epochs=50,
+              epochs=10,
               validation_split=0.2,
               shuffle=True,
               callbacks=[checkpoint, csv_logger])
