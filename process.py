@@ -6,7 +6,7 @@ os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
 
 import tensorflow as tf
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import cv2
 import csv
 
@@ -78,18 +78,20 @@ def process(input_unet_path = 'input_unet', output_path = 'output_contours'):
                 image_file, pred_min, pred_max, pred_mean, num_contours, largest_area
             ])
 
-            # Wyświetlenie i zapis wyników
-            plt.figure(figsize=(10, 5))
-            plt.subplot(1, 2, 1)
-            plt.title('Original Image')
-            plt.imshow(fullres_img_rgb)
+            # # Wyświetlenie i zapis wyników
+            # plt.figure(figsize=(10, 5))
+            # plt.subplot(1, 2, 1)
+            # plt.title('Original Image')
+            # plt.imshow(fullres_img_rgb)
+            #
+            # plt.subplot(1, 2, 2)
+            # plt.title('Contours')
+            # plt.imshow(contour_img)
+            #
+            # plt.savefig(os.path.join(output_path, f"contour_{image_file}"))
+            # plt.close()
 
-            plt.subplot(1, 2, 2)
-            plt.title('Contours')
-            plt.imshow(contour_img)
-
-            plt.savefig(os.path.join(output_path, f"contour_{image_file}"))
-            plt.close()
+            cv2.imwrite(os.path.join(output_path, f"contour_{image_file}"), contour_img)
 
 
 if __name__=="__main__":
