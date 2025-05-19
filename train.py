@@ -107,8 +107,8 @@ def train():
     y_train, y_val = y_train[num_val:], y_train[:num_val]
 
     # Przykładowe obrazy do wizualizacji predykcji (co 10. zdjęcie)
-    sample_images = X_val[::4] #
-    sample_masks = y_val[::4]
+    sample_images = X_val[:] #wszystkie zdjęcia mogą spowalniać, ale chce wiedzieć o co cjodzi
+    sample_masks = y_val[:]
 
     visualize_callback = VisualizePredictions(sample_images, sample_masks)
     tb = tf.keras.callbacks.TensorBoard(log_dir='logs', histogram_freq=1)
