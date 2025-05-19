@@ -76,24 +76,24 @@ def run_stage(name, func, *args, **kwargs):
 def main():
     logs = []
 
-    # # 1) Czyszczenie
-    # from clear import clear
-    # logs.append(run_stage(
-    #     'clear',
-    #     clear,
-    #     # flagi clear: usuwamy .keras i output_contours
-    #     # dry_run=False, żeby faktycznie poszło usuwanie
-    #     dict(keras=True, output=True, dry_run=True)
-    # ) if False else run_stage('clear', clear, keras=True, output=True, dry_run=True)) #dziwny zapis. czat tłumaczy się że to dla wygody
-    # del clear
-    #
-    # # 2) Trening
-    #
-    # from train import train
-    #
-    # logs.append(run_stage('train', train))
-    #
-    # del train
+    # 1) Czyszczenie
+    from clear import clear
+    logs.append(run_stage(
+        'clear',
+        clear,
+        # flagi clear: usuwamy .keras i output_contours
+        # dry_run=False, żeby faktycznie poszło usuwanie
+        dict(keras=True, output=True, dry_run=True)
+    ) if False else run_stage('clear', clear, keras=True, output=True, dry_run=True)) #dziwny zapis. czat tłumaczy się że to dla wygody
+    del clear
+
+    # 2) Trening
+
+    from train import train
+
+    logs.append(run_stage('train', train))
+
+    del train
 
     # 3) Inferencja / proces
     from process import process
