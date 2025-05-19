@@ -106,8 +106,8 @@ def train():
     X_train, X_val = X_train[num_val:], X_train[:num_val]
     y_train, y_val = y_train[num_val:], y_train[:num_val]
 
-    sample_images = X_val[-2:]
-    sample_masks = y_val[-2:]
+    sample_images = X_val[-4:]
+    sample_masks = y_val[-4:]
 
     visualize_callback = VisualizePredictions(sample_images, sample_masks)
     tb = tf.keras.callbacks.TensorBoard(log_dir='logs', histogram_freq=1)
