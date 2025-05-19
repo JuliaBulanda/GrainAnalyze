@@ -45,6 +45,10 @@ def process(input_unet_path = 'input_unet', output_path = 'output_contours'):
                 print(f"Prediction stats for {image_file}: min={prediction.min()}, max={prediction.max()}, mean={prediction.mean()}")
                 binary_mask = (prediction > 0.5).astype(np.uint8) * 255
 
+                # Zapis maski w skali szarości do pliku
+                raw_mask = (prediction * 255).astype(np.uint8)
+                cv2.imwrite(os.path.join(output_path, f"raw_{image_file}"), raw_mask)
+
                 # Zapis maski binarnej do pliku
                 mask_debug_path = os.path.join(output_path, f"mask_{image_file}")
                 cv2.imwrite(mask_debug_path, binary_mask)
@@ -66,7 +70,7 @@ def process(input_unet_path = 'input_unet', output_path = 'output_contours'):
                     largest_contour = max(contours, key=cv2.contourArea)
                     area = cv2.contourArea(largest_contour)
                     print(f"  Largest contour area: {area}")
-                    if area > 50:
+                    if area > 0:
                         cv2.drawContours(contour_img, [largest_contour], -1, (0, 255, 0), 2)
 
                 pred_min = float(prediction.min())

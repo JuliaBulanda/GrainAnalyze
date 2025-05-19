@@ -1,6 +1,6 @@
 import os
 import numpy as np
-# import matplotlib.pyplot as plt
+import cv2
 
 # Wyłącz optymalizacje oneDNN dla TensorFlow
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
@@ -9,11 +9,31 @@ import tensorflow as tf
 
 csv_logger = tf.keras.callbacks.CSVLogger('training_log.csv', append=False)
 
+
 orgilan_path='training/original'
 size=(512, 512, 3)    # I don't know how it works, but can be helpful
     # smoler size = faster building model, but worse shape of result
     #too big value use a lot of RAM !!!
     #3. number is number of colors
+
+val_split = 0.2
+
+class VisualizePredictions(tf.keras.callbacks.Callback):
+    def __init__(self, sample_images, sample_masks, output_dir='train_debug'):
+        super().__init__()
+        self.samples = list(zip(sample_images, sample_masks))
+        os.makedirs(output_dir, exist_ok=True)
+        self.out = output_dir
+
+    def on_epoch_end(self, epoch, logs=None):
+        for i, (img, msk) in enumerate(self.samples):
+            pred = self.model.predict(img[None,...])[0].squeeze()
+            # zapisz input, maskę i predykcję
+            cv2.imwrite(f'{self.out}/ep{epoch:02d}_img{i}.png', (img*255).astype('uint8'))
+            cv2.imwrite(f'{self.out}/ep{epoch:02d}_msk{i}.png', (msk.squeeze()*255).astype('uint8'))
+            cv2.imwrite(f'{self.out}/ep{epoch:02d}_prd{i}.png', ((pred>0.5)*255).astype('uint8'))
+
+
 
 # Funkcja do ładowania i przetwarzania danych
 def load_data(image_path, mask_path, target_size=(size[0], size[1])):
@@ -68,9 +88,7 @@ def train():
     # Ładowanie danych treningowych
     X_train, y_train = load_data('training/original', 'training/mask')
     print(f"Loaded {len(X_train)} images for training.")
-    # plt.imshow(y_train[0].squeeze(), cmap='gray')
-    # plt.title("First training mask")
-    # plt.show()
+
 
     # Kompilacja modelu
     model = unet()
@@ -83,14 +101,25 @@ def train():
                                                     monitor='val_loss',
                                                     save_best_only=True)
 
+
+    num_val = int(len(X_train) * val_split)
+    X_train, X_val = X_train[num_val:], X_train[:num_val]
+    y_train, y_val = y_train[num_val:], y_train[:num_val]
+
+    sample_images = X_val[:2]
+    sample_masks = y_val[:2]
+
+    visualize_callback = VisualizePredictions(sample_images, sample_masks)
+    tb = tf.keras.callbacks.TensorBoard(log_dir='logs', histogram_freq=1)
+
     # Trenowanie modelu
     model.fit(X_train, y_train,
               batch_size=4,
               steps_per_epoch=max(1, len(X_train)),
-              epochs=50,
-              validation_split=0.2,
+              epochs=20,
+              validation_split=val_split,
               shuffle=True,
-              callbacks=[checkpoint, csv_logger])
+              callbacks=[checkpoint, csv_logger, tb, visualize_callback])
 
 
 
