@@ -3,7 +3,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-nazwa="15.jpg"
+nazwa="picture10.jpg"
 # x=430
 # y=1480
 # w=h=900
