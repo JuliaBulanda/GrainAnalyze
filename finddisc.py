@@ -1,84 +1,82 @@
+import os
 import numpy as np
+
+# Wyłącz optymalizacje oneDNN dla TensorFlow
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"    #musi być przed importem
+
 import tensorflow as tf
+
 import cv2
 
-# Załaduj model UNet
+
+
+# Wczytanie modelu
 model = tf.keras.models.load_model('unet_disc_segmentation.keras')
 
-def crop_disk_from_image(img_path):    #, save_mask_path="mask_output.png", show_mask=True):
-    """
-    Wczytuje obraz, generuje maskę UNet-em, znajduje największy kontur (dysk),
-    a potem zwraca przycięty do kwadratu wycinek oryginalnego obrazu.
-    """
-    # 1. Wczytanie oryginału
-    img = cv2.imread(img_path)
-    if img is None:
-        raise FileNotFoundError(f"Nie udało się wczytać {img_path}")
-    h, w = img.shape[:2]
+# Ścieżki wejścia i wyjścia
+input_unet_path = 'input_unet'
+output_path = 'output_contours'
+target_size=(512, 512)
 
-    # 2. Przygotowanie tensora do UNet-a (zmiana rozmiaru i normalizacja)
-    target_size = (512, 512)
-    resized = cv2.resize(img, target_size)
-    tensor = resized.astype(np.float32) / 255.0
-    tensor = np.expand_dims(tensor, axis=0)  # (1,H,W,3)
+def process(input_unet_path = 'input_unet', output_path = 'output_contours'):
+    os.makedirs(output_path, exist_ok=True)
 
-    # 3. Predykcja maski
-    pred = model.predict(tensor)[0, ..., 0]
-    mask = (pred > 0.5).astype(np.uint8) * 255
+        # Przetwarzanie obrazów wejściowych
+        # Przetwarzanie obrazów wejściowych
+        # for dirpath, dirnames, filenames in os.walk(input_unet_path):
+        #     for image_file in filenames:
+                # Ścieżka do obrazu
+                img_path = os.path.join(dirpath, image_file)
+                img_loaded = tf.keras.preprocessing.image.load_img(img_path, target_size=target_size)
+                img_array = tf.keras.preprocessing.image.img_to_array(img_loaded) / 255.0
 
+                # Predykcja maski
+                prediction = model.predict(np.expand_dims(img_array, axis=0))[0].squeeze()
+                print(f"Prediction stats for {image_file}: min={prediction.min()}, max={prediction.max()}, mean={prediction.mean()}")
+                binary_mask = (prediction > 0.5).astype(np.uint8) * 255
 
-    # 4. Przywrócenie do pełnej rozdzielczości
-    mask_full = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
+                # # Zapis maski binarnej do pliku
+                # mask_debug_path = os.path.join(output_path, f"mask_{image_file}")
+                # cv2.imwrite(mask_debug_path, binary_mask)
 
-    # cv2.imwrite(save_mask_path, mask_full)
+                # Przygotowanie obrazu w pełnej rozdzielczości
+                fullres_img = cv2.imread(img_path)
+                fullres_img_rgb = cv2.cvtColor(fullres_img, cv2.COLOR_BGR2RGB)
+                h, w, _ = fullres_img.shape
 
-    # 5. Detekcja konturów
-    contours, _ = cv2.findContours(mask_full, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    if not contours:
-        return None  # lub rzucamy wyjątek / zwracamy cały obraz
-
-    # 6. Wybór największego konturu i bounding box
-    largest_contour = max(contours, key=cv2.contourArea)
-    x, y, cw, ch = cv2.boundingRect(largest_contour)
-
-    # 7. Korekcja bounding box do kwadratu
-    side = max(cw, ch)  # kwadrat ma bok równy największemu wymiarowi bounding box
-    cx, cy = x + cw // 2, y + ch // 2  # środek bounding box
-
-    x0 = max(0, cx - side // 2 - 10)
-    y0 = max(0, cy - side // 2 - 10)
-    x1 = min(w, x0 + side + 10)
-    y1 = min(h, y0 + side + 10)
-
-    # Jeśli kwadrat nie mieści się w obrazie, przesuwamy go
-    if x1 > w:
-        x0 -= (x1 - w)
-        x1 = w
-    if y1 > h:
-        y0 -= (y1 - h)
-        y1 = h
-    if x0 < 0:
-        x1 += abs(x0)
-        x0 = 0
-    if y0 < 0:
-        y1 += abs(y0)
-        y0 = 0
-
-    # 8. Przycięcie i zwrot
-    crop = img[y0:y1, x0:x1]
-
-    return crop
+                mask_resized = cv2.resize(binary_mask, (w, h), interpolation=cv2.INTER_NEAREST)
 
 
-if __name__ == "__main__":
-    # Przykład użycia:
-    out = crop_disk_from_image("training/original/picture22.jpg")
-    if out is not None:
-        cv2.imwrite("disk1_crop.jpg", out)
-        # k:
-        mask_save_path = "output_contours/mask_disk1.png"
-        cropped_save_path = "output_contours/disk1_cropped.jpg"
-        cv2.imwrite(cropped_save_path, out)
-        print(f"Zapisano przycięty obraz: {cropped_save_path}")
-    else:
-        print("Nie znaleziono dysku na obrazie.")
+
+                # Znalezienie konturów
+                contours, _ = cv2.findContours(mask_resized, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                print(f"{image_file}: {len(contours)} contours found")
+
+                contour_img = fullres_img_rgb.copy()
+                if contours:
+                    largest_contour = max(contours, key=cv2.contourArea)
+                    area = cv2.contourArea(largest_contour)
+                    print(f"  Largest contour area: {area}")
+                    if area > 50:
+                        cv2.drawContours(contour_img, [largest_contour], -1, (0, 255, 0), 2)
+
+                pred_min = float(prediction.min())
+                pred_max = float(prediction.max())
+                pred_mean = float(prediction.mean())
+
+                num_contours = len(contours)
+                largest_area = 0.0
+                if contours:
+                    largest_contour = max(contours, key=cv2.contourArea)
+                    largest_area = float(cv2.contourArea(largest_contour))
+
+                csv_writer.writerow([
+                    image_file, pred_min, pred_max, pred_mean, num_contours, largest_area
+                ])
+
+
+                cv2.imwrite(os.path.join(output_path, f"contour_{image_file}"), contour_img)
+
+
+if __name__=="__main__":
+    process(input_unet_path, output_path)
