@@ -3,10 +3,10 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-nazwa="2.jpg"
-x=472
-y=1663
-w=h=890
+nazwa="3.jpg"
+x=374
+y=1574
+w=h=900
 # h=873
 
 sfoto="original/"+nazwa
