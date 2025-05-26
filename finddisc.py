@@ -72,7 +72,7 @@ def crop_disk_from_image(img_path, save_mask_path="mask_output.png", show_mask=T
 
 if __name__ == "__main__":
     # Przykład użycia:
-    out = crop_disk_from_image("input_unet/cw/Kotlina/Samsung Galaxy A52/34.jpg")
+    out = crop_disk_from_image("training/original/picture22.jpg")
     if out is not None:
         cv2.imwrite("disk1_crop.jpg", out)
         # k:
