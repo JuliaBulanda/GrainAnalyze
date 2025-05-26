@@ -21,8 +21,8 @@ mask=cv2.imread(smask)
 # cv2.imshow("2", mask)
 # cv2.waitKey()
 
-foto2=foto[x:x+h][y:y+h]
-mask2=mask[x:x+h][y:y+h]
+foto2=foto[x:x+h, y:y+h]
+mask2=mask[x:x+h, y:y+h]
 
 plt.imshow(foto2)
 
