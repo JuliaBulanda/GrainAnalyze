@@ -34,20 +34,27 @@ def crop_disk_from_image(img_path):
     if not contours:
         return None  # lub rzucamy wyjątek / zwracamy cały obraz
 
-    # 6. Wybór największego konturu
+        # 6. Wybór największego konturu
     largest = max(contours, key=cv2.contourArea)
-    x, y, cw, ch = cv2.boundingRect(largest)
+    (cx, cy), radius = cv2.minEnclosingCircle(largest)
+    cx, cy, radius = int(cx), int(cy), int(np.ceil(radius))
 
-    # 7. Rozmiar kwadratu (największy z boków)
-    side = max(cw, ch)
-    # wyśrodkowanie
-    cx, cy = x + cw//2, y + ch//2
-    x0 = max(0, cx - side//2)
-    y0 = max(0, cy - side//2)
+    # 7. Rozmiar kwadratu (musi w pełni zawierać okrąg)
+    side = 2 * radius  # średnica okręgu
+    x0 = max(0, cx - radius)
+    y0 = max(0, cy - radius)
     x1 = min(w, x0 + side)
     y1 = min(h, y0 + side)
 
-    # 8. Przycięcie i zwrot
+    # 8. Korekcja do kwadratu na brzegach obrazu
+    if x1 - x0 != y1 - y0:  # Jeśli bounding box nie jest kwadratem, poprawiamy
+        side = max(x1 - x0, y1 - y0)
+        x0 = max(0, cx - side // 2)
+        y0 = max(0, cy - side // 2)
+        x1 = min(w, x0 + side)
+        y1 = min(h, y0 + side)
+
+    # 9. Przycięcie i zwrot
     crop = img[y0:y1, x0:x1]
     return crop
 
