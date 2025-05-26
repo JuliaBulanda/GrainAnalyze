@@ -3,11 +3,11 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-nazwa="1.jpg"
-x=615
-y=1609
-w=884
-h=873
+nazwa="2.jpg"
+x=472
+y=1663
+w=h=890
+# h=873
 
 sfoto="original/"+nazwa
 smask="mask/"+nazwa
