@@ -170,6 +170,8 @@ if __name__ == '__main__':
     Grains=Grains()
     for i, single_image in enumerate(list_jpg, 1):
         print(f'Processing - {single_image}')
+        #find disc
+
         Grains.process_image(single_image, min_sieves, max_sieves, i)
     Grains.statistics_and_save()
     print('the end')

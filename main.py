@@ -96,7 +96,7 @@ def main():
     del train
 
     # 3) Inferencja / proces
-    from process import process
+    from finddisc import process
     logs.append(run_stage(
         'process',
         process#,
