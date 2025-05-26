@@ -3,10 +3,10 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-nazwa="4.jpg"
-x=500
-y=1380
-w=h=900
+nazwa="5.jpg"
+x=2340
+y=510
+w=h=925
 # h=873
 
 sfoto="original/"+nazwa
@@ -24,7 +24,7 @@ cv2.rectangle(mask_with_rect, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 # Wyświetlanie obrazów z konturami
 # plt.figure(figsize=(10, 5))
-plt.subplot(1, 2, 1)
+# plt.subplot(1, 2, 1)
 plt.title("Zdjęcie z konturem")
 plt.imshow(cv2.cvtColor(foto_with_rect, cv2.COLOR_BGR2RGB))
 
