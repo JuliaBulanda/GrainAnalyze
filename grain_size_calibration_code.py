@@ -22,9 +22,9 @@ class Grains:
         for folder in folders:
             os.makedirs(folder, exist_ok=True)
 
-    def process_image(self ,file_name, min_sieves, max_sieves, i):
+    def process_image(self ,file_name, min_sieves, max_sieves, i, img):
 
-        img = cv2.imread('input/' + file_name)
+        # img = cv2.imread('input/' + file_name)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, binary = cv2.threshold(gray, 10, 200, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
         contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     for i, single_image in enumerate(list_jpg, 1):
         print(f'Processing - {single_image}')
         #find disc
-        crop_disk_from_image(single_image)
-        Grains.process_image(single_image, min_sieves, max_sieves, i)
+        img=crop_disk_from_image(single_image)
+        Grains.process_image(single_image, min_sieves, max_sieves, i, img)
     Grains.statistics_and_save()
     print('the end')
