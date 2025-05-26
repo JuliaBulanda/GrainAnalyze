@@ -3,9 +3,9 @@ import cv2
 
 nazwa="1.jpg"
 x=615
-y=01609
+y=1609
 w=884
-h=0873
+h=873
 
 foto=cv2.imread("orginal/"+nazwa)
 mask=cv2.imread("mask/"+nazwa)
