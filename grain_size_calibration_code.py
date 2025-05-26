@@ -1,3 +1,5 @@
+#aktualna wersja 26-05 wieczorem (18:47
+
 import math
 import numpy as np
 import cv2
