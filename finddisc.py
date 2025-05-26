@@ -5,7 +5,7 @@ import cv2
 # Załaduj model UNet
 model = tf.keras.models.load_model('unet_disc_segmentation.keras')
 
-def crop_disk_from_image(img_path, save_mask_path="mask_output.png", show_mask=True):
+def crop_disk_from_image(img_path):    #, save_mask_path="mask_output.png", show_mask=True):
     """
     Wczytuje obraz, generuje maskę UNet-em, znajduje największy kontur (dysk),
     a potem zwraca przycięty do kwadratu wycinek oryginalnego obrazu.
@@ -30,7 +30,7 @@ def crop_disk_from_image(img_path, save_mask_path="mask_output.png", show_mask=T
     # 4. Przywrócenie do pełnej rozdzielczości
     mask_full = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
 
-    cv2.imwrite(save_mask_path, mask_full)
+    # cv2.imwrite(save_mask_path, mask_full)
 
     # 5. Detekcja konturów
     contours, _ = cv2.findContours(mask_full, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

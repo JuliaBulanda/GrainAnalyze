@@ -11,6 +11,9 @@ from scipy.stats import gaussian_kde
 from openpyxl import Workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 
+from finddisc import crop_disk_from_image
+# from #jeszcze nie ma szukania ziaren
+
 class Grains:
     def __init__(self):
         self.file_name_L, self.index_L, self.cluster_orientation_L, self.cluster_equivalent_diameter_area_L, self.cluster_perimeter_L, self.x_L, self.y_L= [], [], [], [], [], [], []
@@ -171,7 +174,7 @@ if __name__ == '__main__':
     for i, single_image in enumerate(list_jpg, 1):
         print(f'Processing - {single_image}')
         #find disc
-
+        crop_disk_from_image(single_image)
         Grains.process_image(single_image, min_sieves, max_sieves, i)
     Grains.statistics_and_save()
     print('the end')
