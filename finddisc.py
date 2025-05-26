@@ -54,7 +54,7 @@ def crop_disk_from_image(img_path):
 
 if __name__ == "__main__":
     # Przykład użycia:
-    out = crop_disk_from_image("input_unet/a/Saxo/IMG_20250428_131421.jpg")
+    out = crop_disk_from_image("input_unet/cw/Kotlina/Samsung Galaxy A52/2.jpg")
     if out is not None:
         cv2.imwrite("disk1_crop.jpg", out)
     else:
