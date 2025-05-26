@@ -34,8 +34,9 @@ plt.imshow(cv2.cvtColor(mask_with_rect, cv2.COLOR_BGR2RGB))
 
 plt.show()
 
-foto2=foto[x:x+h, y:y+h]
-mask2=mask[x:x+h, y:y+h]
+foto2 = foto[y:y+h, x:x+w]
+mask2 = mask[y:y+h, x:x+w]
+
 
 plt.imshow(foto2)
 
