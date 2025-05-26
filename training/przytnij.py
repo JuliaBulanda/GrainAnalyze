@@ -3,9 +3,9 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-nazwa="11.jpg"
-x=450
-y=1530
+nazwa="14.jpg"
+x=500
+y=1400
 w=h=950
 # h=873
 
