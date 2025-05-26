@@ -5,7 +5,7 @@ import cv2
 # Załaduj model UNet
 model = tf.keras.models.load_model('unet_disc_segmentation.keras')
 
-def crop_disk_from_image(img_path):
+def crop_disk_from_image(img_path, save_mask_path="mask_output.png", show_mask=True):
     """
     Wczytuje obraz, generuje maskę UNet-em, znajduje największy kontur (dysk),
     a potem zwraca przycięty do kwadratu wycinek oryginalnego obrazu.
@@ -26,36 +26,47 @@ def crop_disk_from_image(img_path):
     pred = model.predict(tensor)[0, ..., 0]
     mask = (pred > 0.5).astype(np.uint8) * 255
 
+
     # 4. Przywrócenie do pełnej rozdzielczości
     mask_full = cv2.resize(mask, (w, h), interpolation=cv2.INTER_NEAREST)
+
+    cv2.imwrite(save_mask_path, mask_full)
 
     # 5. Detekcja konturów
     contours, _ = cv2.findContours(mask_full, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return None  # lub rzucamy wyjątek / zwracamy cały obraz
 
-        # 6. Wybór największego konturu
-    largest = max(contours, key=cv2.contourArea)
-    (cx, cy), radius = cv2.minEnclosingCircle(largest)
-    cx, cy, radius = int(cx), int(cy), int(np.ceil(radius))
+    # 6. Wybór największego konturu i bounding box
+    largest_contour = max(contours, key=cv2.contourArea)
+    x, y, cw, ch = cv2.boundingRect(largest_contour)
 
-    # 7. Rozmiar kwadratu (musi w pełni zawierać okrąg)
-    side = 2 * radius  # średnica okręgu
-    x0 = max(0, cx - radius)
-    y0 = max(0, cy - radius)
+    # 7. Korekcja bounding box do kwadratu
+    side = max(cw, ch)  # kwadrat ma bok równy największemu wymiarowi bounding box
+    cx, cy = x + cw // 2, y + ch // 2  # środek bounding box
+
+    x0 = max(0, cx - side // 2)
+    y0 = max(0, cy - side // 2)
     x1 = min(w, x0 + side)
     y1 = min(h, y0 + side)
 
-    # 8. Korekcja do kwadratu na brzegach obrazu
-    if x1 - x0 != y1 - y0:  # Jeśli bounding box nie jest kwadratem, poprawiamy
-        side = max(x1 - x0, y1 - y0)
-        x0 = max(0, cx - side // 2)
-        y0 = max(0, cy - side // 2)
-        x1 = min(w, x0 + side)
-        y1 = min(h, y0 + side)
+    # Jeśli kwadrat nie mieści się w obrazie, przesuwamy go
+    if x1 > w:
+        x0 -= (x1 - w)
+        x1 = w
+    if y1 > h:
+        y0 -= (y1 - h)
+        y1 = h
+    if x0 < 0:
+        x1 += abs(x0)
+        x0 = 0
+    if y0 < 0:
+        y1 += abs(y0)
+        y0 = 0
 
-    # 9. Przycięcie i zwrot
+    # 8. Przycięcie i zwrot
     crop = img[y0:y1, x0:x1]
+
     return crop
 
 
@@ -64,5 +75,10 @@ if __name__ == "__main__":
     out = crop_disk_from_image("input_unet/cw/Kotlina/Samsung Galaxy A52/2.jpg")
     if out is not None:
         cv2.imwrite("disk1_crop.jpg", out)
+        # k:
+        mask_save_path = "output_contours/mask_disk1.png"
+        cropped_save_path = "output_contours/disk1_cropped.jpg"
+        cv2.imwrite(cropped_save_path, out)
+        print(f"Zapisano przycięty obraz: {cropped_save_path}")
     else:
         print("Nie znaleziono dysku na obrazie.")
