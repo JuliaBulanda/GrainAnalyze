@@ -1,4 +1,4 @@
-#aktualna wersja 26-05 wieczorem (18:47
+#aktualna wersja 27-05
 
 import math
 import numpy as np
@@ -8,10 +8,10 @@ import pandas as pd
 from scipy import ndimage
 from skimage import io, color, measure
 import os
-import seaborn as sns
+# import seaborn as sns
 from scipy.stats import gaussian_kde
 from openpyxl import Workbook
-from openpyxl.utils.dataframe import dataframe_to_rows
+# from openpyxl.utils.dataframe import dataframe_to_rows
 
 from finddisc import crop_disk_from_image
 # from #jeszcze nie ma szukania ziaren
@@ -142,7 +142,8 @@ class Grains:
         wb.save("output/for_user/grain_data.xlsx")
 
         plt.figure(figsize=(10, 6))
-        sns.histplot(data=df, x='diameter (um)', hue='file_name', bins=100, multiple='stack', edgecolor='black', palette='tab10', stat='count')
+        for file_name, group in df.groupby('file_name'):
+            plt.hist(group['diameter (um)'], bins=100, alpha=0.5, label=file_name, edgecolor='black')
 
         data = np.array(df['diameter (um)'])
         median = np.median(data)
