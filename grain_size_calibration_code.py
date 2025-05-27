@@ -12,6 +12,7 @@ import os
 from scipy.stats import gaussian_kde
 from openpyxl import Workbook
 # from openpyxl.utils.dataframe import dataframe_to_rows
+import traceback    #do wyświetlania błędów
 
 from finddisc import crop_disk_from_image
 # from #jeszcze nie ma szukania ziaren
@@ -185,6 +186,11 @@ if __name__ == '__main__':
         # Znalezienie dysku
         img = crop_disk_from_image(
             single_image)  # Zakładam, że funkcja crop_disk_from_image jest wcześniej zdefiniowana
-        Grains.process_image(single_image, min_sieves, max_sieves, i, img)
+        try:
+            Grains.process_image(single_image, min_sieves, max_sieves, i, img)
+        except Exception as e:
+            # Wyświetlenie pełnego komunikatu o błędzie i kontynuacja
+            print(f'Error processing {single_image}:')
+            traceback.print_exc()
     Grains.statistics_and_save()
     print('the end')
