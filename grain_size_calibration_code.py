@@ -172,12 +172,19 @@ if __name__ == '__main__':
 
     min_sieves, max_sieves = 150, 250
 
-    list_jpg = sorted([f for f in os.listdir('input/') if f.lower().endswith('.jpg')])
+    # Rekursywne wyszukiwanie wszystkich plików w folderze "input" i podfolderach
+    list_files = []
+    for root, dirs, files in os.walk('input_unet'):
+        for file in files:
+            # Dodajemy wszystkie pliki bez sprawdzania rozszerzenia
+            list_files.append(os.path.join(root, file))
+
     Grains=Grains()
-    for i, single_image in enumerate(list_jpg, 1):
+    for i, single_image in enumerate(list_files, 1):
         print(f'Processing - {single_image}')
-        #find disc
-        img=crop_disk_from_image(single_image)
+        # Znalezienie dysku
+        img = crop_disk_from_image(
+            single_image)  # Zakładam, że funkcja crop_disk_from_image jest wcześniej zdefiniowana
         Grains.process_image(single_image, min_sieves, max_sieves, i, img)
     Grains.statistics_and_save()
     print('the end')
