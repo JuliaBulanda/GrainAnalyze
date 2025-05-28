@@ -1,4 +1,4 @@
-#aktualna wersja 27-05
+#aktualna wersja 28-05
 
 import math
 import numpy as np

@@ -1,3 +1,5 @@
+#aktualna wersja 28-05
+
 import warnings
 import numpy as np
 import tensorflow as tf
