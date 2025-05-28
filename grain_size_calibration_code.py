@@ -27,7 +27,8 @@ class Grains:
 
     def process_image(self ,file_path, min_sieves, max_sieves, i, img):
 
-        img = cv2.imread(file_path)
+        # img = cv2.imread(file_path)
+        copy=img.copy()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, binary = cv2.threshold(gray, 10, 200, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
         contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -44,7 +45,8 @@ class Grains:
         cv2.drawContours(img, [largest_contour], -1,(0, 0, 255), 2)
         cv2.imwrite(f'output/detected_disc/detected_disc_{i}.jpg', img)
 
-        img = cv2.imread('input/' + file_path, 0)
+        img = copy.copy()
+        cv2.imshow()
         ret, thresh = cv2.threshold(img, 150, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         cv2.imwrite(os.path.join('output', 'detected_grains', f'thresh_obraz_{i}.jpg'), thresh)
         kernel = np.ones((3, 3), np.uint8)
@@ -84,7 +86,7 @@ class Grains:
                 rejected_list[index] += f'E{4*math.pi*cluster.area/(cluster.perimeter**2):.1f}'
 
         img_color = cv2.cvtColor(img_color, cv2.COLOR_RGB2BGR)
-        img = cv2.imread('input/' + file_path)
+        img = copy.copy()
         cv2.circle(img, (int(x), int(y)), int(radius), (0, 0, 255), 2)
         cv2.drawContours(img, [largest_contour], -1, (0, 255, 0), 2)
 
