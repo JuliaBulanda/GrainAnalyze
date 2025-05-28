@@ -25,9 +25,9 @@ class Grains:
         for folder in folders:
             os.makedirs(folder, exist_ok=True)
 
-    def process_image(self ,file_name, min_sieves, max_sieves, i, img):
+    def process_image(self ,file_path, min_sieves, max_sieves, i, img):
 
-        # img = cv2.imread('input/' + file_name)
+        img = cv2.imread(file_path)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, binary = cv2.threshold(gray, 10, 200, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
         contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -44,7 +44,7 @@ class Grains:
         cv2.drawContours(img, [largest_contour], -1,(0, 0, 255), 2)
         cv2.imwrite(f'output/detected_disc/detected_disc_{i}.jpg', img)
 
-        img = cv2.imread('input/' + file_name, 0)
+        img = cv2.imread('input/' + file_path, 0)
         ret, thresh = cv2.threshold(img, 150, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         cv2.imwrite(os.path.join('output', 'detected_grains', f'thresh_obraz_{i}.jpg'), thresh)
         kernel = np.ones((3, 3), np.uint8)
@@ -84,7 +84,7 @@ class Grains:
                 rejected_list[index] += f'E{4*math.pi*cluster.area/(cluster.perimeter**2):.1f}'
 
         img_color = cv2.cvtColor(img_color, cv2.COLOR_RGB2BGR)
-        img = cv2.imread('input/' + file_name)
+        img = cv2.imread('input/' + file_path)
         cv2.circle(img, (int(x), int(y)), int(radius), (0, 0, 255), 2)
         cv2.drawContours(img, [largest_contour], -1, (0, 255, 0), 2)
 
@@ -103,7 +103,7 @@ class Grains:
                 cv2.putText(img, text_to_display, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
             else:
                 cv2.putText(img, text_to_display, (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-                self.file_name_L.append(file_name)
+                self.file_name_L.append(file_path)
                 self.index_L.append(index)
                 self.cluster_orientation_L.append(cluster.orientation)
                 self.cluster_equivalent_diameter_area_L.append(cluster.equivalent_diameter_area*um_per_pixel)
@@ -111,7 +111,7 @@ class Grains:
                 self.x_L.append(x)
                 self.y_L.append(y)
 
-        cv2.imwrite(f'output/for_user/{file_name[:-4]}_processed.jpg', img)
+        cv2.imwrite(f'output/for_user/{file_path[:-4]}_processed.jpg', img)
         return
 
     def statistics_and_save(self):
@@ -184,8 +184,7 @@ if __name__ == '__main__':
     for i, single_image in enumerate(list_files, 1):
         print(f'Processing: {single_image}')
         # Znalezienie dysku
-        img = crop_disk_from_image(
-            single_image)
+        img = crop_disk_from_image(single_image)
         print('zdjęcie przycięte.')
         try:
             Grains.process_image(single_image, min_sieves, max_sieves, i, img)
