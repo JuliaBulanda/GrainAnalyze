@@ -48,10 +48,10 @@ def crop_disk_from_image(img_path):    #, save_mask_path="mask_output.png", show
     side = max(cw, ch)  # kwadrat ma bok równy największemu wymiarowi bounding box
     cx, cy = x + cw // 2, y + ch // 2  # środek bounding box
 
-    x0 = max(0, cx - side // 2 - 10)
-    y0 = max(0, cy - side // 2 - 10)
-    x1 = min(w, x0 + side + 10)
-    y1 = min(h, y0 + side + 10)
+    x0 = max(0, cx - side // 2 - 20)
+    y0 = max(0, cy - side // 2 - 20)
+    x1 = min(w, x0 + side + 20)
+    y1 = min(h, y0 + side + 20)
 
     # Jeśli kwadrat nie mieści się w obrazie, przesuwamy go
     if x1 > w:
