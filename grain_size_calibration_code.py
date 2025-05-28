@@ -188,6 +188,7 @@ if __name__ == '__main__':
         # Znalezienie dysku
         img = crop_disk_from_image(single_image)
         print('zdjęcie przycięte.')
+        if img
         try:
             Grains.process_image(single_image, min_sieves, max_sieves, i, img=None)
         except Exception as e:

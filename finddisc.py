@@ -1,3 +1,4 @@
+import warnings
 import numpy as np
 import tensorflow as tf
 import cv2
@@ -35,7 +36,9 @@ def crop_disk_from_image(img_path):    #, save_mask_path="mask_output.png", show
     # 5. Detekcja konturów
     contours, _ = cv2.findContours(mask_full, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
-        return None  # lub rzucamy wyjątek / zwracamy cały obraz
+        if not contours:
+            warnings.warn(f"Nie znaleziono konturów na masce dla obrazu {img_path}. Zwracany jest cały obraz.")
+            return img  # Zwracamy oryginalny obraz
 
     # 6. Wybór największego konturu i bounding box
     largest_contour = max(contours, key=cv2.contourArea)
