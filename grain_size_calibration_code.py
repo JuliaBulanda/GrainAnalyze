@@ -186,7 +186,7 @@ if __name__ == '__main__':
     for i, single_image in enumerate(list_files, 1):
         print(f'Processing: {single_image}')
         # Znalezienie dysku
-        # img = crop_disk_from_image(single_image)
+        img = crop_disk_from_image(single_image)
         print('zdjęcie przycięte.')
         try:
             Grains.process_image(single_image, min_sieves, max_sieves, i, img=None)
