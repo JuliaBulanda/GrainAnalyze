@@ -1,3 +1,6 @@
+#nie wiem czy tu coś zmieniałem, ale chyba trzeba dodać pliki do czyszczenia
+#aktualna wersja 30-05 wracam do innej gałęzi
+
 import os
 import shutil
 

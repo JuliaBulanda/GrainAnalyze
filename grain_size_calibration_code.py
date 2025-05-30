@@ -1,4 +1,5 @@
-#aktualna wersja 30-05
+#aktualna wersja 30-05 wracam do innej gałęzi
+
 
 import math
 import numpy as np

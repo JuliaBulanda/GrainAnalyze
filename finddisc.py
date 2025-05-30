@@ -1,4 +1,4 @@
-#aktualna wersja 28-05
+#aktualna wersja 30-05 wracam do innej gałęzi
 
 import warnings
 import numpy as np

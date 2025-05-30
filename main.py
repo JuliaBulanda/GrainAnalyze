@@ -1,4 +1,5 @@
-#z czata
+#aktualna wersja 30-05 wracam do innej gałęzi
+
 # main.py
 
 import datetime
