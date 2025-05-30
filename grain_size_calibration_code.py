@@ -193,7 +193,7 @@ if __name__ == '__main__':
             try:
                 basename = os.path.basename(single_image)
                 dest_path = os.path.join("output", "clear", basename)
-                os.makedirs(dest_path, exist_ok=True)
+                os.makedirs(os.path.dirname(dest_path), exist_ok=True)
                 saved=cv2.imwrite(dest_path,img) #do testów
                 print("zapisano w: ", dest_path, saved)
                 Grains.process_image(single_image, min_sieves, max_sieves, i, img)
