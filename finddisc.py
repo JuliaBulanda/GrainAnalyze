@@ -7,6 +7,7 @@ import cv2
 
 # Załaduj model UNet
 model = tf.keras.models.load_model('unet_disc_segmentation.keras')
+target_size = (512, 512)
 
 def crop_disk_from_image(img_path):    #, save_mask_path="mask_output.png", show_mask=True):
     """
@@ -20,7 +21,7 @@ def crop_disk_from_image(img_path):    #, save_mask_path="mask_output.png", show
     h, w = img.shape[:2]
 
     # 2. Przygotowanie tensora do UNet-a (zmiana rozmiaru i normalizacja)
-    target_size = (512, 512)
+
     resized = cv2.resize(img, target_size)
     tensor = resized.astype(np.float32) / 255.0
     tensor = np.expand_dims(tensor, axis=0)  # (1,H,W,3)
