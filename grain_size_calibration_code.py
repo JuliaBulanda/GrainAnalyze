@@ -191,8 +191,8 @@ if __name__ == '__main__':
         print('zdjęcie przycięte.')
         if img is not None:
             try:
-                cv2.imwrite("output/clear/"+single_image,img) #do testów
-                print("zapisano: "+"output/clear/"+single_image)
+                saved=cv2.imwrite("output/clear/"+single_image,img) #do testów
+                print("zapisano: "+"output/clear/"+single_image+' '+saved)
                 Grains.process_image(single_image, min_sieves, max_sieves, i, img)
             except Exception as e:
                 # Wyświetlenie pełnego komunikatu o błędzie i kontynuacja

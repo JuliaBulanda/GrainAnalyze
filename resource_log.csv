@@ -1,2 +1,0 @@
-stage,start_time,end_time,duration_s,cpu_start_%,cpu_end_%,mem_start_%,mem_end_%,gpu_util_start_%,gpu_util_end_%,gpu_mem_start_MiB,gpu_mem_end_MiB
-process,2025-05-13T18:51:04.272949,2025-05-13T18:53:36.718104,152.445155,3.8,3.4,52.8,52.7,,,,
