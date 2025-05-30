@@ -191,8 +191,11 @@ if __name__ == '__main__':
         print('zdjęcie przycięte.')
         if img is not None:
             try:
-                saved=cv2.imwrite("output/clear/"+single_image,img) #do testów
-                print("zapisano: "+"output/clear/"+single_image+' '+saved)
+                basename = os.path.basename(single_image)
+                dest_path = os.path.join("output", "clear", basename)
+                os.makedirs(dest_path, exist_ok=True)
+                saved=cv2.imwrite(dest_path,img) #do testów
+                print("zapisano w: ", dest_path, saved)
                 Grains.process_image(single_image, min_sieves, max_sieves, i, img)
             except Exception as e:
                 # Wyświetlenie pełnego komunikatu o błędzie i kontynuacja
