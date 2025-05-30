@@ -1,4 +1,4 @@
-#aktualna wersja 28-05
+#aktualna wersja 30-05
 
 import math
 import numpy as np
@@ -47,7 +47,8 @@ class Grains:
 
         img = copy.copy()
         # cv2.imshow()
-        ret, thresh = cv2.threshold(img, 150, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        gray2 = cv2.cvtColor(copy, cv2.COLOR_BGR2GRAY)
+        ret, thresh = cv2.threshold(gray2, 150, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         cv2.imwrite(os.path.join('output', 'detected_grains', f'thresh_obraz_{i}.jpg'), thresh)
         kernel = np.ones((3, 3), np.uint8)
         eroded = cv2.erode(thresh, kernel, iterations=1)
@@ -190,6 +191,7 @@ if __name__ == '__main__':
         print('zdjęcie przycięte.')
         if img is not None:
             try:
+                cv2.imwrite("output/clear/"+single_image,img) #do testów
                 Grains.process_image(single_image, min_sieves, max_sieves, i, img)
             except Exception as e:
                 # Wyświetlenie pełnego komunikatu o błędzie i kontynuacja
